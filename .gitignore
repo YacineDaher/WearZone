@@ -11,4 +11,4 @@ build.log
 *.ldf
 appsettings.Local.json
 secrets.json
-docs/
+
