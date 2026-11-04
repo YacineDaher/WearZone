@@ -1,0 +1,170 @@
+@model Product
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Create Product" : "Edit Product";
+    var isEdit = Model.Id != 0;
+}
+
+<div style="max-width: 900px;">
+    <form method="post" asp-action="@(isEdit ? "Edit" : "Create")">
+        @Html.AntiForgeryToken()
+        @if (isEdit)
+        {
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="SKU" />
+            <input type="hidden" asp-for="CreatedAt" />
+            <input type="hidden" asp-for="ViewCount" />
+        }
+
+        <div style="background: #fff; border: 1px solid var(--admin-border); border-radius: 8px; padding: 30px; margin-bottom: 25px;">
+            <h3 style="margin-top: 0; margin-bottom: 25px; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;">Basic Information</h3>
+            
+            <div class="admin-form-group">
+                <label asp-for="Name" class="admin-form-label">Product Name *</label>
+                <input asp-for="Name" class="admin-form-input" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="admin-form-group">
+                <label asp-for="Description" class="admin-form-label">Description</label>
+                <textarea asp-for="Description" class="admin-form-textarea"></textarea>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="admin-form-group">
+                    <label asp-for="Brand" class="admin-form-label">Brand</label>
+                    <input asp-for="Brand" class="admin-form-input" />
+                </div>
+
+                <div class="admin-form-group">
+                    <label asp-for="CategoryId" class="admin-form-label">Category *</label>
+                    <select asp-for="CategoryId" class="admin-form-select" asp-items="ViewBag.Categories" required>
+                        <option value="">Select Category</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #fff; border: 1px solid var(--admin-border); border-radius: 8px; padding: 30px; margin-bottom: 25px;">
+            <h3 style="margin-top: 0; margin-bottom: 25px; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;">Pricing & Inventory</h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                <div class="admin-form-group">
+                    <label asp-for="Price" class="admin-form-label">Price ($) *</label>
+                    <input asp-for="Price" type="number" step="0.01" class="admin-form-input" required />
+                </div>
+
+                <div class="admin-form-group">
+                    <label asp-for="OriginalPrice" class="admin-form-label">Original Price ($)</label>
+                    <input asp-for="OriginalPrice" type="number" step="0.01" class="admin-form-input" />
+                    <small style="font-size: 11px; color: #999;">For showing discounts</small>
+                </div>
+
+                <div class="admin-form-group">
+                    <label asp-for="StockQuantity" class="admin-form-label">Stock Quantity *</label>
+                    <input asp-for="StockQuantity" type="number" class="admin-form-input" required />
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #fff; border: 1px solid var(--admin-border); border-radius: 8px; padding: 30px; margin-bottom: 25px;">
+            <h3 style="margin-top: 0; margin-bottom: 25px; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;">Product Details</h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="admin-form-group">
+                    <label asp-for="Gender" class="admin-form-label">Gender</label>
+                    <select asp-for="Gender" class="admin-form-select">
+                        <option value="">Select Gender</option>
+                        <option value="Men">Men</option>
+                        <option value="Women">Women</option>
+                        <option value="Kids">Kids</option>
+                        <option value="Unisex">Unisex</option>
+                    </select>
+                </div>
+
+                <div class="admin-form-group">
+                    <label asp-for="SubCategory" class="admin-form-label">Sub Category</label>
+                    <input asp-for="SubCategory" class="admin-form-input" placeholder="e.g., T-Shirts, Jeans, Hoodies" />
+                </div>
+
+                <div class="admin-form-group">
+                    <label asp-for="Color" class="admin-form-label">Color</label>
+                    <input asp-for="Color" class="admin-form-input" placeholder="e.g., Black, White, Blue" />
+                </div>
+
+                <div class="admin-form-group">
+                    <label asp-for="Size" class="admin-form-label">Size</label>
+                    <input asp-for="Size" class="admin-form-input" placeholder="e.g., S, M, L, XL or One Size" />
+                </div>
+
+                <div class="admin-form-group">
+                    <label asp-for="AgeGroup" class="admin-form-label">Age Group</label>
+                    <select asp-for="AgeGroup" class="admin-form-select">
+                        <option value="">Select Age Group</option>
+                        <option value="Adult">Adult</option>
+                        <option value="Teen">Teen</option>
+                        <option value="Toddler">Toddler</option>
+                        <option value="School">School</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #fff; border: 1px solid var(--admin-border); border-radius: 8px; padding: 30px; margin-bottom: 25px;">
+            <h3 style="margin-top: 0; margin-bottom: 25px; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;">Images</h3>
+            
+            <div class="admin-form-group">
+                <label asp-for="ImageUrl" class="admin-form-label">Primary Image URL *</label>
+                <input asp-for="ImageUrl" type="url" class="admin-form-input" required />
+                <small style="font-size: 11px; color: #999;">Enter the full URL of the product image</small>
+            </div>
+
+            <div class="admin-form-group">
+                <label asp-for="SecondaryImageUrl" class="admin-form-label">Secondary Image URL</label>
+                <input asp-for="SecondaryImageUrl" type="url" class="admin-form-input" />
+                <small style="font-size: 11px; color: #999;">Hover image (optional)</small>
+            </div>
+
+            <div class="admin-form-group">
+                <label asp-for="BackImageUrl" class="admin-form-label">Back View Image URL</label>
+                <input asp-for="BackImageUrl" type="url" class="admin-form-input" />
+            </div>
+
+            <div class="admin-form-group">
+                <label asp-for="SideImageUrl" class="admin-form-label">Side View Image URL</label>
+                <input asp-for="SideImageUrl" type="url" class="admin-form-input" />
+            </div>
+        </div>
+
+        <div style="background: #fff; border: 1px solid var(--admin-border); border-radius: 8px; padding: 30px; margin-bottom: 25px;">
+            <h3 style="margin-top: 0; margin-bottom: 25px; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;">Settings</h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                <div class="admin-form-checkbox">
+                    <input asp-for="IsActive" type="checkbox" />
+                    <label asp-for="IsActive">Active</label>
+                </div>
+
+                <div class="admin-form-checkbox">
+                    <input asp-for="IsNewArrival" type="checkbox" />
+                    <label asp-for="IsNewArrival">New Arrival</label>
+                </div>
+
+                <div class="admin-form-checkbox">
+                    <input asp-for="IsTrending" type="checkbox" />
+                    <label asp-for="IsTrending">Trending</label>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 15px; justify-content: flex-end;">
+            <a href="/Admin/Products" class="btn-admin btn-admin-secondary">Cancel</a>
+            <button type="submit" class="btn-admin btn-admin-primary">
+                @(isEdit ? "Update Product" : "Create Product")
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

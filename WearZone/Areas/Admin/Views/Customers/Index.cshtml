@@ -1,0 +1,98 @@
+@model IEnumerable<WearZone.Areas.Admin.Controllers.CustomerViewModel>
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<!-- Header -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <div></div>
+    <!-- No create button for customers usually, they register themselves -->
+</div>
+
+<!-- Filters -->
+<div class="admin-filters">
+    <div class="admin-filter-group" style="flex: 1;">
+        <label class="admin-form-label">Search Users</label>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="searchTerm" class="admin-form-input" placeholder="Name or email..." value="@Context.Request.Query["searchTerm"]" />
+            <button onclick="applyFilters()" class="btn-admin btn-admin-primary" style="white-space: nowrap;">Search</button>
+        </div>
+    </div>
+</div>
+
+<!-- Customers Table -->
+<div class="admin-table-container">
+    <div class="admin-table-header">
+        <h3 class="admin-table-title">Registered Customers (@Model.Count())</h3>
+    </div>
+    
+    @if (Model.Any())
+    {
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Registered</th>
+                    <th>Orders</th>
+                    <th>Total Spent</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="width: 32px; height: 32px; background: var(--bg-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--text-secondary);">
+                                    @((item.User.FirstName?.FirstOrDefault() ?? '?').ToString().ToUpper())
+                                </div>
+                                <div>
+                                    <div style="font-weight: 500;">@item.User.FirstName @item.User.LastName</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>@item.User.Email</td>
+                        <td>@item.User.RegisteredAt.ToString("MMM dd, yyyy")</td>
+                        <td>
+                            <span class="badge badge-secondary">@item.OrderCount orders</span>
+                        </td>
+                        <td><strong>$@item.TotalSpent.ToString("N2")</strong></td>
+                        <td>
+                            <a href="/Admin/Customers/Details/@item.User.Id" class="btn-admin btn-admin-secondary btn-admin-sm">View Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div style="padding: 60px 20px; text-align: center; color: #999;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin-bottom: 20px; opacity: 0.3;">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <h3>No customers found</h3>
+            <p>Try providing a different search term</p>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchTerm').value;
+            window.location.href = `/Admin/Customers?searchTerm=${encodeURIComponent(searchTerm)}`;
+        }
+
+        document.getElementById('searchTerm').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                applyFilters();
+            }
+        });
+    </script>
+}

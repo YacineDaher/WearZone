@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WearZone</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/WearZone.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="brand">
+                <a asp-area="" asp-page="/Index">
+                    <!-- TODO: PUT YOUR LOGO IMAGE URL HERE BELOW (e.g., /images/wearzone-logo.png) -->
+                    <img src="/images/wear.jpeg" alt="WearZone Logo" style="height: 85px; object-fit: contain;" />
+                </a>
+            </div>
+            
+            <ul class="navbar-menu">
+                <!-- WOMEN -->
+                <li class="navbar-item">
+                    <a asp-page="/Produits/Index" asp-route-gender="Women">WOMEN</a>
+                    <div class="mega-menu">
+                        <div class="mega-container">
+                            <div class="mega-col">
+                                <h3>Discover</h3>
+                                <ul>
+                                    <li><a href="#">All Products</a></li>
+                                    <li><a href="/Produits/Index?Gender=Women&Trending=true">Trending</a></li>
+                                    <li><a href="/Produits/Index?Gender=Women&New=true">New Product Drops</a></li>
+                                    <li><a href="#">Best Sellers</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h3>T-Shirts & Tops</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Women&Category=Clothing&SubCategory=T-Shirts">T-Shirts</a></li>
+                                    <li><a href="/Produits/Index?Gender=Women&Category=Clothing&SubCategory=Polos">Polos</a></li>
+                                    <li><a href="/Produits/Index?Gender=Women&Category=Clothing&SubCategory=Sweat">Sweat</a></li>
+                                    <li><a href="/Produits/Index?Gender=Women&Category=Clothing&SubCategory=Chemises">Chemises</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h3>Bottoms</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Women&Category=Clothing&SubCategory=Jeans">Jeans</a></li>
+                                    <li><a href="/Produits/Index?Gender=Women&Category=Clothing&SubCategory=Pantalons">Pantalons</a></li>
+                                    <li><a href="/Produits/Index?Gender=Women&Category=Clothing&SubCategory=Shorts">Shorts</a></li>
+                                    <li><a href="/Produits/Index?Gender=Women&Category=Clothing&SubCategory=Survêtements">Survêtements</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h3>Outerwear</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Women&Category=Clothing&SubCategory=Manteaux">Blousons | Manteaux</a></li>
+                                    <li><a href="/Produits/Index?Gender=Women&Category=Clothing&SubCategory=Pulls">Pulls | Gilets</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h3>&nbsp;</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Women&Category=Shoes">Chaussures</a></li>
+                                    <li><a href="/Produits/Index?Gender=Women&Category=Accessories">Accessories</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- MEN -->
+                <li class="navbar-item">
+                    <a asp-page="/Produits/Index" asp-route-gender="Men">MEN</a>
+                    <div class="mega-menu">
+                        <div class="mega-container">
+                            <div class="mega-col">
+                                <h3>Discover</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Men">All Products</a></li>
+                                    <li><a href="/Produits/Index?Gender=Men&Trending=true">Trending</a></li>
+                                    <li><a href="/Produits/Index?Gender=Men&New=true">New Product Drops</a></li>
+                                    <li><a href="/Produits/Index?Gender=Men&Trending=true">Best Sellers</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h3>T-Shirts & Tops</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Men&Category=Clothing&SubCategory=T-Shirts">T-Shirts</a></li>
+                                    <li><a href="/Produits/Index?Gender=Men&Category=Clothing&SubCategory=Polos">Polos</a></li>
+                                    <li><a href="/Produits/Index?Gender=Men&Category=Clothing&SubCategory=Sweat">Sweat</a></li>
+                                    <li><a href="/Produits/Index?Gender=Men&Category=Clothing&SubCategory=Chemises">Chemises</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h3>Bottoms</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Men&Category=Clothing&SubCategory=Jeans">Jeans</a></li>
+                                    <li><a href="/Produits/Index?Gender=Men&Category=Clothing&SubCategory=Pantalons">Pantalons</a></li>
+                                    <li><a href="/Produits/Index?Gender=Men&Category=Clothing&SubCategory=Shorts">Shorts</a></li>
+                                    <li><a href="/Produits/Index?Gender=Men&Category=Clothing&SubCategory=Survêtements">Survêtements</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h3>Outerwear</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Men&Category=Clothing&SubCategory=Manteaux">Blousons | Manteaux</a></li>
+                                    <li><a href="/Produits/Index?Gender=Men&Category=Clothing&SubCategory=Pulls">Pulls | Gilets</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h3>&nbsp;</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Men&Category=Shoes">Chaussures</a></li>
+                                    <li><a href="/Produits/Index?Gender=Men&Category=Accessories">Accessories</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- KIDS -->
+                <li class="navbar-item">
+                    <a asp-page="/Produits/Index" asp-route-gender="Kids">KIDS</a>
+                    <div class="mega-menu">
+                        <div class="mega-container">
+                            <div class="mega-col">
+                                <h3>Discover</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Kids">View All</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&New=true">New Arrivals</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&Trending=true">Best Sellers</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h3>Baby (0-4y)</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Baby">Newborn</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Baby">Bodysuits</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Baby">Sets & Suits</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Baby">Accessories</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h3>Girls (5-14y)</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Girls">Dresses</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Girls">Tops & T-Shirts</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Girls">Jeans & Trousers</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Girls">Jackets</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h3>Boys (5-14y)</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Boys">T-Shirts & Shirts</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Boys">Hoodies & Sweat</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Boys">Jeans & Cargo</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Boys">Jackets</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h3>Shoes & Acc</h3>
+                                <ul>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Shoes">Sneakers</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Shoes">Sandals</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&SubCategory=Shoes">Boots</a></li>
+                                    <li><a href="/Produits/Index?Gender=Kids&Category=Accessories">Bags & Backpacks</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- ACCESSORIES -->
+                <li class="navbar-item"><a asp-page="/Produits/Index" asp-route-category="Accessories">ACCESSORIES</a></li>
+            </ul>
+
+            <div class="nav-icons">
+                <a href="#" class="nav-icon" title="Search" onclick="openSearch(); return false;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </a>
+                <partial name="_LoginPartial" />
+                <a href="/Wishlist" class="nav-icon" title="Favorites">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </a>
+                <a href="#" class="nav-icon" title="Cart" onclick="openCart(); return false;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    <span id="cartBadge" class="cart-badge" style="display:none">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="/Produits/Index?Gender=Women">Women</a></li>
+                        <li><a href="/Produits/Index?Gender=Men">Men</a></li>
+                        <li><a href="/Produits/Index?Gender=Kids">Kids</a></li>
+                        <li><a href="/Produits/Index?Category=Accessories">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Help</h4>
+                    <ul>
+                        <li><a href="#">Customer Service</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="/Contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="/About">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a asp-page="/Privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <ul>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Pinterest</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 WearZone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- SEARCH OVERLAY -->
+    <div id="searchOverlay" class="search-overlay">
+        <button class="btn-close-search" onclick="closeSearch()">&times;</button>
+        <div class="search-container">
+            <h2 class="search-title">What are you looking for?</h2>
+            <form action="/Produits/Index" method="get" class="search-form">
+                <input type="text" name="SearchString" class="search-input" placeholder="Search products..." autofocus />
+                <button type="submit" class="btn-search-submit">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </form>
+            <div class="search-suggestions">
+                <h4>Trending Now</h4>
+                <div class="tags">
+                    <a href="/Produits/Index?Trending=true">Summer Collection</a>
+                    <a href="/Produits/Index?Category=Clothing&SubCategory=Jeans">Denim</a>
+                    <a href="/Produits/Index?New=true">New Arrivals</a>
+                    <a href="/Produits/Index?Category=Accessories">Accessories</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDE CART DRAWER -->
+    <div id="cartOverlay" class="cart-overlay" onclick="closeCart()"></div>
+    <div id="cartDrawer" class="cart-drawer">
+        <div class="cart-header">
+            <h3>Shopping Bag (<span id="cartCountHeader">0</span>)</h3>
+            <button onclick="closeCart()" class="btn-close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItemsContainer">
+             <!-- JS will populate -->
+             <p style="padding:20px; color:#999; text-align:center;">Your bag is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-subtotal">
+                <span>Subtotal</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <p style="font-size:11px; color:#888; margin-bottom:10px;">Shipping & taxes calculated at checkout</p>
+            <a href="/Panier" class="btn-checkout">CHECKOUT</a>
+        </div>
+    </div>
+</body>
+</html>

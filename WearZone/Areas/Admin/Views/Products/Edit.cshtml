@@ -1,0 +1,7 @@
+@model Product
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<!-- Reuse the Create view -->
+@await Html.PartialAsync("Create", Model)

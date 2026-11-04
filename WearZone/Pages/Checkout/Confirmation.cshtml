@@ -1,0 +1,224 @@
+@page "{id:int?}"
+@model WearZone.Pages.Checkout.ConfirmationModel
+@{
+    ViewData["Title"] = "Order Confirmed";
+}
+
+<div class="confirmation-container" style="text-align: center; padding: 60px 20px; max-width: 800px; margin: 0 auto;">
+    
+    <div style="margin-bottom: 30px;">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+    </div>
+
+    <h1 style="font-family: var(--font-heading); font-size: 42px; margin-bottom: 10px;">Thank You!</h1>
+    <p style="font-size: 16px; color: #666; margin-bottom: 40px;">Your order #@Model.OrderId has been placed successfully.</p>
+
+    <!-- Delivery Simulation -->
+    <div class="delivery-tracker">
+        <h3 style="font-size: 14px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">Live Delivery Status</h3>
+        
+        <div class="tracker-steps">
+            <div class="step active" id="step-pending">
+                <div class="step-dot"></div>
+                <div class="step-label">Pending</div>
+            </div>
+            <div class="step" id="step-processing">
+                <div class="step-dot"></div>
+                <div class="step-label">Processing</div>
+            </div>
+            <div class="step" id="step-shipped">
+                <div class="step-dot"></div>
+                <div class="step-label">Shipped</div>
+            </div>
+            <div class="step" id="step-delivered">
+                <div class="step-dot"></div>
+                <div class="step-label">Delivered</div>
+            </div>
+            
+            <!-- Progress Line -->
+            <div class="tracker-line-bg"></div>
+            <div class="tracker-line-fill" id="tracker-fill"></div>
+        </div>
+        
+        <div class="status-message" id="status-message" style="margin-top: 30px; font-weight: 600; min-height: 24px;">
+            Initializing order...
+        </div>
+    </div>
+
+    <div style="margin-top: 60px;">
+        <a href="/" class="btn-checkout-full" style="max-width: 300px; margin: 0 auto; display: inline-block;">Continue Shopping</a>
+    </div>
+
+</div>
+
+<style>
+    .delivery-tracker {
+        background: #f9f9f9;
+        padding: 40px;
+        border-radius: 12px;
+        margin-top: 40px;
+    }
+    
+    .tracker-steps {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        margin: 0 auto;
+        max-width: 600px;
+    }
+    
+    .tracker-line-bg {
+        position: absolute;
+        top: 15px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: #e0e0e0;
+        z-index: 1;
+    }
+    
+    .tracker-line-fill {
+        position: absolute;
+        top: 15px;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background: #000;
+        z-index: 2;
+        transition: width 0.5s linear;
+    }
+    
+    .step {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 80px;
+    }
+    
+    .step-dot {
+        width: 32px;
+        height: 32px;
+        background: #fff;
+        border: 2px solid #e0e0e0;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+    
+    .step.active .step-dot {
+        border-color: #000;
+        background: #000;
+        box-shadow: 0 0 0 4px rgba(0,0,0,0.1);
+    }
+    
+    .step.completed .step-dot {
+        background: #000;
+        border-color: #000;
+    }
+    
+    .step.active .step-dot::after {
+        content: '';
+        width: 10px;
+        height: 10px;
+        background: #fff;
+        border-radius: 50%;
+    }
+    
+    .step.completed .step-dot::after {
+        content: '✓';
+        color: #fff;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    
+    .step-label {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #999;
+        transition: color 0.3s ease;
+    }
+    
+    .step.active .step-label,
+    .step.completed .step-label {
+        color: #000;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const orderId = @Model.OrderId;
+        if(orderId === 0) return; 
+        
+        const fill = document.getElementById('tracker-fill');
+        const msg = document.getElementById('status-message');
+        
+        const steps = [
+            { id: 'step-pending', label: 'Order Received', pct: 0 },
+            { id: 'step-processing', label: 'Processing Order...', pct: 33 },
+            { id: 'step-shipped', label: 'Order Shipped - On the way!', pct: 66 },
+            { id: 'step-delivered', label: 'Delivered - Enjoy your purchase!', pct: 100 }
+        ];
+
+        // 1. Activate Step 0 (Pending) Immediately
+        activateStepUI(0);
+        fill.style.transition = 'width 2s linear'; // Smooth fill between steps
+
+        // 2. Move to Processing (fill to 33%)
+        setTimeout(() => {
+            fill.style.width = '33%';
+            msg.innerText = steps[1].label;
+            document.getElementById('step-pending').classList.add('completed');
+            document.getElementById('step-pending').classList.remove('active');
+            document.getElementById('step-processing').classList.add('active');
+        }, 1000);
+
+        // 3. Move to Shipped (fill to 66%)
+        setTimeout(() => {
+            fill.style.width = '66%';
+            msg.innerText = steps[2].label;
+            document.getElementById('step-processing').classList.add('completed');
+            document.getElementById('step-processing').classList.remove('active');
+            document.getElementById('step-shipped').classList.add('active');
+        }, 3500);
+
+        // 4. Move to Delivered (fill to 100%)
+        setTimeout(() => {
+            fill.style.width = '100%';
+            msg.innerText = steps[3].label;
+            document.getElementById('step-shipped').classList.add('completed');
+            document.getElementById('step-shipped').classList.remove('active');
+            document.getElementById('step-delivered').classList.add('active');
+            document.getElementById('step-delivered').classList.add('completed'); // Mark final as done too
+
+            // Call Backend
+            fetch('?handler=SimulateDelivery', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': document.getElementsByName('__RequestVerificationToken')[0].value
+                },
+                body: 'id=' + orderId
+            });
+
+        }, 6500);
+
+        function activateStepUI(index) {
+             const s = steps[index];
+             const el = document.getElementById(s.id);
+             el.classList.add('active');
+             msg.innerText = s.label;
+             fill.style.width = s.pct + '%';
+        }
+    });
+</script>
+
+@Html.AntiForgeryToken()

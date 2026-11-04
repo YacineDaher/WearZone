@@ -1,0 +1,167 @@
+@model WearZone.Models.Order
+@{
+    ViewData["Title"] = "Order Details - #" + Model.Id;
+}
+
+<div class="admin-header">
+    <div>
+        <a href="/Admin/Orders" style="font-size:12px; text-transform:uppercase; text-decoration:none; color:#666;">&larr; Back to Orders</a>
+        <h1 class="admin-title" style="margin-top:10px;">Order #@Model.Id</h1>
+        <div style="font-size: 13px; color: #888;">Placed on @Model.OrderDate.ToString("MMMM dd, yyyy 'at' HH:mm")</div>
+    </div>
+
+    <div style="display:flex; gap: 10px; align-items:center;">
+        <span class="status-badge status-@Model.Status.ToLower()">@Model.Status</span>
+
+        <select id="statusSelect" onchange="updateStatus(@Model.Id, this.value)" style="padding: 8px; border-radius: 4px; border: 1px solid #ddd;">
+            <option value="Pending" selected="@(Model.Status == "Pending")">Pending</option>
+            <option value="Processing" selected="@(Model.Status == "Processing")">Processing</option>
+            <option value="Shipped" selected="@(Model.Status == "Shipped")">Shipped</option>
+            <option value="Delivered" selected="@(Model.Status == "Delivered")">Delivered</option>
+            <option value="Cancelled" selected="@(Model.Status == "Cancelled")">Cancelled</option>
+        </select>
+    </div>
+</div>
+
+<div class="order-details-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 30px;">
+
+    <div class="card" style="background:#fff; border:1px solid #eee; border-radius:8px; padding:20px;">
+        <h3 style="margin-top:0; font-size:15px; text-transform:uppercase; border-bottom:1px solid #eee; padding-bottom:10px;">Items</h3>
+
+        <table style="width:100%; border-collapse: collapse; margin-top: 10px;">
+            <thead>
+                <tr style="text-align:left; color:#888; font-size:12px; text-transform:uppercase;">
+                    <th style="padding: 10px 0;">Product</th>
+                    <th style="padding: 10px 0;">Price</th>
+                    <th style="padding: 10px 0;">Qty</th>
+                    <th style="padding: 10px 0; text-align:right;">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model.Items)
+                {
+                <tr style="border-bottom: 1px solid #f9f9f9;">
+                    <td style="padding: 15px 0; display:flex; align-items:center; gap: 15px;">
+                        <img src="@item.Product.ImageUrl" style="width:50px; height:60px; object-fit:cover; border-radius:4px;" />
+                        <div>
+                            <div style="font-weight:600; font-size:14px;">@item.Product.Name</div>
+                            <div style="font-size:12px; color:#888;">SKU: @item.Product.SKU</div>
+                        </div>
+                    </td>
+                    <td style="padding: 15px 0;">$@item.Price.ToString("N2")</td>
+                    <td style="padding: 15px 0;">@item.Quantity</td>
+                    <td style="padding: 15px 0; text-align:right; font-weight:600;">$@((item.Price * item.Quantity).ToString("N2"))</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <div style="margin-top: 20px; text-align: right;">
+            <div style="display:flex; justify-content:flex-end; gap: 40px; font-size:14px;">
+                <span style="color:#666;">Subtotal:</span>
+                <span>$@Model.TotalAmount.ToString("N2")</span>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap: 40px; font-size:14px; margin-top:5px;">
+                <span style="color:#666;">Shipping:</span>
+                <span>Free</span>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap: 40px; font-size:18px; font-weight:700; margin-top:15px; border-top:1px solid #eee; padding-top:15px;">
+                <span>Total:</span>
+                <span>$@Model.TotalAmount.ToString("N2")</span>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap: 20px;">
+
+        <div class="card" style="background:#fff; border:1px solid #eee; border-radius:8px; padding:20px;">
+            <h3 style="margin-top:0; font-size:15px; text-transform:uppercase; border-bottom:1px solid #eee; padding-bottom:10px;">Customer</h3>
+            <div style="margin-top:15px;">
+                <p style="margin:0; font-weight:600;">@Model.FullName</p>
+                <p style="margin:5px 0; color:#666; font-size:13px;">User ID: @Model.UserId</p>
+                <a href="mailto:@Model.UserId" style="font-size:13px; color:#000;">Email Customer</a>
+            </div>
+        </div>
+
+        <div class="card" style="background:#fff; border:1px solid #eee; border-radius:8px; padding:20px;">
+            <h3 style="margin-top:0; font-size:15px; text-transform:uppercase; border-bottom:1px solid #eee; padding-bottom:10px;">Shipping Address</h3>
+            <div style="margin-top:15px; font-size:14px; line-height:1.6; color:#444;">
+                @Model.FullName<br />
+                @Model.Address<br />
+                @Model.City, @Model.ZipCode<br />
+                @Model.Country
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+
+<script>
+    function updateStatus(orderId, newStatus) {
+        if (!confirm('Change order status to ' + newStatus + '?')) {
+            location.reload(); // Reset dropdown if cancelled
+            return;
+        }
+
+        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        fetch('/Admin/Orders/UpdateStatus', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'RequestVerificationToken': token
+            },
+            body: new URLSearchParams({ id: orderId, status: newStatus })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Status updated successfully!');
+                    location.reload();
+                } else {
+                    alert('Failed to update status.');
+                }
+            })
+            .catch(err => console.error(err));
+    }
+</script>
+
+<style>
+    .status-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-right: 15px;
+    }
+
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .status-processing {
+        background: #cce5ff;
+        color: #004085;
+    }
+
+    .status-shipped {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .status-delivered {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .status-cancelled {
+        background: #f8d7da;
+        color: #721c24;
+    }
+</style>

@@ -1,0 +1,63 @@
+@page
+@model WearZone.Areas.Identity.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="auth-container">
+    <div class="auth-card">
+        <h1 class="auth-title">Create Account</h1>
+        <p class="auth-subtitle">Join us for exclusive access and rewards</p>
+
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:20px;">
+                <div class="form-group">
+                    <label asp-for="Input.FirstName">First Name</label>
+                    <input asp-for="Input.FirstName" class="form-input" placeholder="First Name" />
+                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.LastName">Last Name</label>
+                    <input asp-for="Input.LastName" class="form-input" placeholder="Last Name" />
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group full">
+                <label asp-for="Input.Email">Email Address</label>
+                <input asp-for="Input.Email" class="form-input" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group full" style="margin-top:20px;">
+                <label asp-for="Input.Password">Password</label>
+                <input asp-for="Input.Password" class="form-input" autocomplete="new-password" aria-required="true" placeholder="Create a password" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group full" style="margin-top:20px;">
+                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                <input asp-for="Input.ConfirmPassword" class="form-input" autocomplete="new-password" aria-required="true" placeholder="Confirm your password" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <p style="font-size: 11px; color:#666; margin-top:20px; line-height:1.5;">
+                By creating an account, you agree to our <a href="#" style="color:#000; text-decoration:underline;">Privacy Policy</a> and <a href="#" style="color:#000; text-decoration:underline;">Terms of Service</a>.
+            </p>
+
+            <button id="register-submit" type="submit" class="btn-auth-submit">Create Account</button>
+            
+            <div class="auth-divider">
+                <span>Already have an account?</span>
+            </div>
+            
+            <a href="/Identity/Account/Login" class="btn-auth-outline">Log In</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

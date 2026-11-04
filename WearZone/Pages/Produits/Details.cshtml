@@ -1,0 +1,156 @@
+@page
+@model WearZone.Pages.Produits.DetailsModel
+@{
+    ViewData["Title"] = Model.Product.Name;
+}
+
+<div class="breadcrumb-container" style="max-width:1400px; margin: 0 auto; padding: 20px; font-size: 11px; text-transform: uppercase; color: #888;">
+    <a href="/" style="color:#000; text-decoration:none;">Home</a>
+    <span style="margin:0 5px;">/</span>
+    <a href="/Produits?Gender=@Model.Product.Gender" style="color:#000; text-decoration:none;">@Model.Product.Gender</a>
+    <span style="margin:0 5px;">/</span>
+    <span>@Model.Product.Name</span>
+</div>
+
+<div class="pdp-container">
+    <!-- Gallery Section (Scrollable) -->
+    <div class="pdp-gallery">
+        <div class="main-image-container">
+            <img src="@Model.Product.ImageUrl" id="mainImage" class="main-image" />
+        </div>
+        <div class="thumbnail-strip">
+            <!-- Thumb 1 (Active by default) -->
+            <img src="@Model.Product.ImageUrl" class="thumbnail active" onclick="changeImage(this.src, this)" />
+            
+            @if (!string.IsNullOrEmpty(Model.Product.SecondaryImageUrl))
+            {
+                <img src="@Model.Product.SecondaryImageUrl" class="thumbnail" onclick="changeImage(this.src, this)" />
+            }
+        </div>
+    </div>
+
+    <!-- Details Section (Sticky) -->
+    <div class="pdp-info">
+        <div class="pdp-header">
+            @if(!string.IsNullOrEmpty(Model.Product.Brand)) {
+                <span class="pdp-brand">@Model.Product.Brand</span>
+            }
+            <h1 class="pdp-title">@Model.Product.Name</h1>
+            <div class="pdp-price">$@Model.Product.Price</div>
+        </div>
+
+        <div class="pdp-description">
+            <p>@Model.Product.Description</p>
+        </div>
+
+        <!-- Size Selector -->
+        <div class="pdp-selector">
+            <span class="selector-label">Size</span>
+            <div class="size-options" id="sizeSelector">
+                <button class="size-btn" onclick="selectSize(this)">XS</button>
+                <button class="size-btn" onclick="selectSize(this)">S</button>
+                <button class="size-btn active" onclick="selectSize(this)">M</button>
+                <button class="size-btn" onclick="selectSize(this)">L</button>
+                <button class="size-btn" onclick="selectSize(this)">XL</button>
+            </div>
+            <a href="#" class="size-guide">Size Guide</a>
+        </div>
+
+        <!-- Actions -->
+        <div class="pdp-actions">
+            <button class="btn-add-bag" onclick="addToCart(@Model.Product.Id, this)">ADD TO BAG</button>
+            <button class="btn-fav" onclick="toggleWishlist(@Model.Product.Id, this)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Accordion Details -->
+        <div class="pdp-meta">
+            <div class="meta-item">
+                <div class="meta-header" onclick="toggleAccordion(this)">
+                    COMPOSITION & CARE <span class="acc-icon">+</span>
+                </div>
+                <div class="meta-content" style="display:none; padding-bottom: 15px; font-size: 13px; line-height: 1.6; color: #555;">
+                    <p>Machine wash at 30°C. Do not bleach. Iron at low temperature. Do not tumble dry.</p>
+                </div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-header" onclick="toggleAccordion(this)">
+                    DELIVERY & RETURNS <span class="acc-icon">+</span>
+                </div>
+                <div class="meta-content" style="display:none; padding-bottom: 15px; font-size: 13px; line-height: 1.6; color: #555;">
+                    <p>Standard delivery: 2-4 working days. Returns are free within 30 days.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Related Products -->
+@if (Model.RelatedProducts.Any())
+{
+    <div class="related-section" style="max-width:1400px; margin: 80px auto 40px; padding: 0 20px;">
+        <h3 style="font-size: 14px; font-weight: 600; text-transform: uppercase; margin-bottom: 30px;">You Might Also Like</h3>
+        <div class="product-grid">
+            @foreach (var item in Model.RelatedProducts)
+            {
+                <a asp-page="/Produits/Details" asp-route-id="@item.Id" class="product-card-minimal">
+                    <div class="product-image-container">
+                        <img src="@item.ImageUrl" class="default-img" loading="lazy" />
+                         @if(!string.IsNullOrEmpty(item.SecondaryImageUrl)) {
+                            <img src="@item.SecondaryImageUrl" class="hover-img" loading="lazy" />
+                         }
+                         <button class="btn-wishlist" onclick="event.preventDefault(); toggleWishlist(@item.Id, this)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">@item.Name</div>
+                        <div class="product-price">$@item.Price</div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+}
+
+
+
+<script>
+    function changeImage(src, thumb) {
+        document.getElementById('mainImage').src = src;
+        // Update active class
+        var thumbs = document.querySelectorAll('.thumbnail');
+        thumbs.forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+    }
+
+    function selectSize(btn) {
+        // Remove active class from all siblings
+        var siblings = btn.parentElement.children;
+        for (var i = 0; i < siblings.length; i++) {
+            siblings[i].classList.remove('active');
+        }
+        // Add active to clicked
+        btn.classList.add('active');
+    }
+
+    function toggleAccordion(header) {
+        var content = header.nextElementSibling;
+        var icon = header.querySelector('.acc-icon');
+        
+        if (content.style.display === "block") {
+            content.style.display = "none";
+            icon.innerText = "+";
+        } else {
+            content.style.display = "block";
+            icon.innerText = "-";
+        }
+    }
+
+
+</script>

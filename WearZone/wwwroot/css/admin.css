@@ -1,0 +1,563 @@
+/* ============================================
+   WEARZONE ADMIN PANEL - PREMIUM STYLING
+   ============================================ */
+
+:root {
+  --admin-primary: #000;
+  --admin-bg: #f8f8f8;
+  --admin-sidebar-bg: #fff;
+  --admin-border: #e5e5e5;
+  --admin-text: #333;
+  --admin-text-light: #666;
+  --admin-success: #10b981;
+  --admin-warning: #f59e0b;
+  --admin-danger: #ef4444;
+  --admin-info: #3b82f6;
+}
+
+.admin-body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--admin-bg);
+  color: var(--admin-text);
+}
+
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+
+.admin-sidebar {
+  width: 260px;
+  background: var(--admin-sidebar-bg);
+  border-right: 1px solid var(--admin-border);
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.admin-logo {
+  padding: 30px 25px;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-logo h2 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin: 0 0 5px 0;
+}
+
+.admin-logo span {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--admin-text-light);
+}
+
+.admin-nav {
+  padding: 20px 0;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 25px;
+  color: var(--admin-text);
+  text-decoration: none;
+  transition: all 0.2s;
+  font-size: 14px;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+}
+
+.admin-nav-item:hover {
+  background: #f9f9f9;
+  border-left-color: var(--admin-primary);
+}
+
+.admin-nav-item.active {
+  background: #f5f5f5;
+  border-left-color: var(--admin-primary);
+  color: var(--admin-primary);
+}
+
+.admin-nav-item svg {
+  flex-shrink: 0;
+}
+
+.admin-nav-divider {
+  height: 1px;
+  background: var(--admin-border);
+  margin: 20px 25px;
+}
+
+.logout-form {
+  margin: 0;
+}
+
+.logout-form button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 25px;
+  background: none;
+  border: none;
+  color: var(--admin-text);
+  text-decoration: none;
+  transition: all 0.2s;
+  font-size: 14px;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.logout-form button:hover {
+  background: #f9f9f9;
+  border-left-color: var(--admin-danger);
+  color: var(--admin-danger);
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+
+.admin-main {
+  margin-left: 260px;
+  flex: 1;
+  min-height: 100vh;
+}
+
+.admin-header {
+  background: #fff;
+  border-bottom: 1px solid var(--admin-border);
+  padding: 25px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.admin-user-info {
+  font-size: 13px;
+  color: var(--admin-text-light);
+}
+
+.admin-content {
+  padding: 40px;
+}
+
+/* ============================================
+   ALERTS
+   ============================================ */
+
+.alert {
+  padding: 15px 20px;
+  margin-bottom: 25px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.alert-success {
+  background: #d1fae5;
+  color: #065f46;
+  border-left: 4px solid var(--admin-success);
+}
+
+.alert-error {
+  background: #fee2e2;
+  color: #991b1b;
+  border-left: 4px solid var(--admin-danger);
+}
+
+/* ============================================
+   STATS CARDS
+   ============================================ */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  padding: 25px;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.stat-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.stat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.stat-card-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--admin-text-light);
+  font-weight: 600;
+}
+
+.stat-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-card-icon.primary {
+  background: #f0f0f0;
+  color: var(--admin-primary);
+}
+
+.stat-card-icon.success {
+  background: #d1fae5;
+  color: var(--admin-success);
+}
+
+.stat-card-icon.warning {
+  background: #fef3c7;
+  color: var(--admin-warning);
+}
+
+.stat-card-icon.danger {
+  background: #fee2e2;
+  color: var(--admin-danger);
+}
+
+.stat-card-value {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.stat-card-subtitle {
+  font-size: 13px;
+  color: var(--admin-text-light);
+}
+
+/* ============================================
+   TABLES
+   ============================================ */
+
+.admin-table-container {
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-table-header {
+  padding: 20px 25px;
+  border-bottom: 1px solid var(--admin-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-table-title {
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table thead {
+  background: #f9f9f9;
+}
+
+.admin-table th {
+  padding: 15px 25px;
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--admin-text-light);
+  font-weight: 600;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-table td {
+  padding: 18px 25px;
+  border-bottom: 1px solid var(--admin-border);
+  font-size: 14px;
+}
+
+.admin-table tbody tr:hover {
+  background: #fafafa;
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn-admin {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-admin-primary {
+  background: var(--admin-primary);
+  color: #fff;
+}
+
+.btn-admin-primary:hover {
+  background: #333;
+  color: #fff;
+}
+
+.btn-admin-secondary {
+  background: #f5f5f5;
+  color: var(--admin-text);
+  border: 1px solid var(--admin-border);
+}
+
+.btn-admin-secondary:hover {
+  background: #e5e5e5;
+}
+
+.btn-admin-success {
+  background: var(--admin-success);
+  color: #fff;
+}
+
+.btn-admin-success:hover {
+  background: #059669;
+}
+
+.btn-admin-danger {
+  background: var(--admin-danger);
+  color: #fff;
+}
+
+.btn-admin-danger:hover {
+  background: #dc2626;
+}
+
+.btn-admin-sm {
+  padding: 6px 12px;
+  font-size: 11px;
+}
+
+/* ============================================
+   FORMS
+   ============================================ */
+
+.admin-form-group {
+  margin-bottom: 20px;
+}
+
+.admin-form-label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--admin-text);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.admin-form-input,
+.admin-form-select,
+.admin-form-textarea {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 14px;
+  border: 1px solid var(--admin-border);
+  border-radius: 4px;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.admin-form-input:focus,
+.admin-form-select:focus,
+.admin-form-textarea:focus {
+  outline: none;
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+.admin-form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.admin-form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-form-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* ============================================
+   BADGES
+   ============================================ */
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 3px;
+}
+
+.badge-success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.badge-warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge-danger {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.badge-info {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-secondary {
+  background: #f5f5f5;
+  color: var(--admin-text);
+}
+
+/* ============================================
+   PRODUCT IMAGE
+   ============================================ */
+
+.product-img-sm {
+  width: 50px;
+  height: 65px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--admin-border);
+}
+
+/* ============================================
+   FILTERS
+   ============================================ */
+
+.admin-filters {
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  padding: 20px 25px;
+  margin-bottom: 25px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.admin-filter-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@@media (max-width: 1024px) {
+  .admin-sidebar {
+    width: 220px;
+  }
+
+  .admin-main {
+    margin-left: 220px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@@media (max-width: 768px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+
+  .admin-main {
+    margin-left: 0;
+  }
+
+  .admin-content {
+    padding: 20px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-table {
+    font-size: 12px;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 12px 15px;
+  }
+}

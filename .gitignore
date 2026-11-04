@@ -1,0 +1,14 @@
+bin/
+obj/
+.vs/
+*.user
+build.log
+
+# --- WearZone specific ---
+build.log
+*.bak
+*.mdf
+*.ldf
+appsettings.Local.json
+secrets.json
+docs/

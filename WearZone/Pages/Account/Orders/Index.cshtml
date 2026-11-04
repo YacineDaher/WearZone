@@ -1,0 +1,278 @@
+@page
+@model WearZone.Pages.Account.Orders.IndexModel
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<div class="orders-page-container">
+    <div class="orders-header">
+        <h1>My Orders</h1>
+        <p>Track current orders and review past purchases</p>
+    </div>
+
+    @if (Model.Orders.Count == 0)
+    {
+        <div class="empty-state">
+            <h3>No orders yet</h3>
+            <p>You haven't placed any orders yet.</p>
+            <a href="/Produits/Index" class="btn-shop-now">Start Shopping</a>
+        </div>
+    }
+    else
+    {
+        <div class="orders-list">
+            @foreach (var order in Model.Orders)
+            {
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <span class="order-label">Order placed</span>
+                            <span class="order-value">@order.OrderDate.ToString("MMMM dd, yyyy")</span>
+                        </div>
+                        <div class="order-info">
+                            <span class="order-label">Total</span>
+                            <span class="order-value">$@order.TotalAmount</span>
+                        </div>
+                        <div class="order-info">
+                            <span class="order-label">Order #</span>
+                            <span class="order-value">@order.Id</span>
+                        </div>
+                        <div class="order-status @order.Status.ToLower()">
+                            @order.Status
+                        </div>
+                    </div>
+                    
+                    <div class="order-items">
+                        @foreach (var item in order.Items)
+                        {
+                            <div class="order-item">
+                                <div class="item-image">
+                                    <img src="@item.Product.ImageUrl" alt="@item.Product.Name" />
+                                </div>
+                                <div class="item-details">
+                                    <a href="/Produits/Details?id=@item.ProductId" class="item-name">@item.Product.Name</a>
+                                    <p class="item-meta">Qty: @item.Quantity</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .orders-page-container {
+        max-width: 1000px;
+        margin: 60px auto 100px;
+        padding: 0 20px;
+    }
+    
+    .orders-header {
+        margin-bottom: 50px;
+        text-align: center;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .orders-header h1 {
+        font-family: var(--font-heading);
+        font-size: 32px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        font-weight: 400;
+        letter-spacing: 2px;
+    }
+    
+    .orders-header p {
+        font-size: 14px;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 100px 20px;
+    }
+    
+    .empty-state h3 {
+        font-size: 24px;
+        margin-bottom: 15px;
+        font-weight: 400;
+    }
+    
+    .empty-state p {
+        font-size: 15px;
+        color: #666;
+        margin-bottom: 30px;
+    }
+    
+    .btn-shop-now {
+        display: inline-block;
+        background: #000;
+        color: #fff;
+        padding: 14px 40px;
+        text-transform: uppercase;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-shop-now:hover {
+        background: #333;
+        transform: translateY(-2px);
+        color: #fff;
+    }
+    
+    .orders-list {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .order-card {
+        border: 1px solid #e5e5e5;
+        background: #fff;
+        transition: all 0.3s ease;
+    }
+    
+    .order-card:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border-color: #ddd;
+    }
+    
+    .order-header {
+        background: #f9f9f9;
+        padding: 25px;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #e5e5e5;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
+    }
+    
+    .order-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .order-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: #999;
+        letter-spacing: 1px;
+        font-weight: 600;
+    }
+    
+    .order-value {
+        font-size: 13px;
+        font-weight: 600;
+        color: #000;
+    }
+    
+    .order-status {
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 11px;
+        padding: 6px 14px;
+        border-radius: 2px;
+        letter-spacing: 1px;
+    }
+    
+    .order-status.pending { 
+        background: #fff3cd; 
+        color: #856404; 
+    }
+    
+    .order-status.shipped { 
+        background: #d4edda; 
+        color: #155724; 
+    }
+    
+    .order-status.delivered { 
+        background: #d1ecf1; 
+        color: #0c5460; 
+    }
+    
+    .order-items {
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .order-item {
+        display: flex;
+        gap: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #f5f5f5;
+    }
+    
+    .order-item:last-child { 
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+    
+    .item-image {
+        width: 70px;
+        height: 90px;
+        background: #f9f9f9;
+        flex-shrink: 0;
+    }
+    
+    .item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .item-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 6px;
+    }
+    
+    .item-name {
+        font-weight: 600;
+        font-size: 14px;
+        color: #000;
+        text-decoration: none;
+        transition: opacity 0.2s;
+    }
+    
+    .item-name:hover {
+        opacity: 0.7;
+        text-decoration: underline;
+    }
+    
+    .item-meta {
+        font-size: 12px;
+        color: #666;
+        margin: 0;
+    }
+    
+    @@media (max-width: 768px) {
+        .order-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .order-status {
+            align-self: flex-start;
+        }
+        
+        .item-image {
+            width: 60px;
+            height: 80px;
+        }
+    }
+</style>

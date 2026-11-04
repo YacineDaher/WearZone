@@ -1,0 +1,145 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">ESSENTIAL COLLECTION</h1>
+        <p class="hero-subtitle">The new season essentials suitable for every moment. Discover the latest trends in fashion.</p>
+        <div class="hero-cta-group">
+            <a href="/Produits/Index?Gender=Women" class="btn-hero">Shop Women</a>
+            <a href="/Produits/Index?Gender=Men" class="btn-hero">Shop Men</a>
+        </div>
+    </div>
+    <div class="hero-image">
+         <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop" loading="eager" alt="New Collection" />
+    </div>
+</section>
+
+<!-- EDITORIAL BRAND SECTION -->
+<section class="editorial-section">
+    <div class="container">
+        <div class="editorial-content">
+            <div class="editorial-image-col">
+                <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop" loading="eager" alt="Editorial Campaign" />
+            </div>
+            <div class="editorial-text-col">
+                <span class="editorial-subtitle">The Philosophy</span>
+                <h2 class="editorial-headline">Timeless design for the modern lifestyle.</h2>
+                <p class="editorial-desc">
+                    WearZone isn't just about clothing. It's about a quiet confidence. 
+                    We believe in sustainable materials, perfect cuts, and pieces that endure beyond the season.
+                </p>
+                <a href="/About" class="editorial-link">Discover Our Story</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SHOP BY CATEGORY -->
+<section class="category-section">
+    <div class="container">
+        <div class="category-header">
+             <h3 class="category-section-title">Shop by Category</h3>
+        </div>
+        
+        <div class="category-grid">
+            <a href="/Produits/Index?Gender=Men" class="category-card">
+                <div class="category-image-wrapper">
+                    <img src="https://static.pullandbear.net/assets/public/85f0/9be4/7dbe4eeb8024/b48686e64c72/newin-desk/newin-desk.jpg?ts=1767614587733&w=1292.5&f=auto" loading="eager" alt="Men" />
+                    <div class="category-content-overlay">
+                        <span class="category-name">Men</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="/Produits/Index?Gender=Women" class="category-card">
+                <div class="category-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop" loading="eager" alt="Women" />
+                    <div class="category-content-overlay">
+                        <span class="category-name">Women</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="/Produits/Index?Gender=Kids" class="category-card">
+                <div class="category-image-wrapper">
+                    <img src="https://static.zara.net/assets/public/1ab8/6dfc/3e754addbdca/0a824a523e00/05536773481-p/05536773481-p.jpg?ts=1760348682296&w=383" loading="eager" alt="Kids" />
+                    <div class="category-content-overlay">
+                         <span class="category-name">Kids</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="/Produits/Index?Category=Accessories" class="category-card">
+                <div class="category-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=600&auto=format&fit=crop" loading="eager" alt="Accessories" />
+                    <div class="category-content-overlay">
+                         <span class="category-name">Accessories</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+<!-- NEW ARRIVALS -->
+<section class="new-arrivals-section">
+    <div class="container">
+        <div class="new-arrivals-header">
+            <h2>New Arrivals</h2>
+            <a href="/Produits" class="view-all-link">View All Products</a>
+        </div>
+        
+        <div class="product-grid">
+            <!-- Mock Product 1 -->
+            <div class="product-card-minimal">
+                <div class="product-image-container">
+                    <span class="badge-minimal">NEW</span>
+                    <img src="https://static.pullandbear.net/assets/public/3cc0/d941/a6fc4294b28a/60db026f5bb4/1_DESKTOP/1_DESKTOP.jpg?ts=1767025361127&w=1292.5&f=auto" loading="lazy" />
+                </div>
+                <div class="product-details">
+                    <div class="product-name">Oversized Cotton Shirt</div>
+                    <div class="product-price">$49.90</div>
+                </div>
+            </div>
+
+            <!-- Mock Product 2 -->
+            <div class="product-card-minimal">
+                <div class="product-image-container">
+                    <span class="badge-minimal">NEW</span>
+                    <img src="https://static.pullandbear.net/assets/public/556f/6b18/f23a466a936d/4134e995ab4b/fr_MA/POST-sra-desk.jpg?ts=1765540486208&w=1292.5&f=auto" loading="lazy" />
+                </div>
+                <div class="product-details">
+                    <div class="product-name">Relaxed Fit Trousers</div>
+                    <div class="product-price">$59.90</div>
+                </div>
+            </div>
+
+            <!-- Mock Product 3 -->
+            <div class="product-card-minimal">
+                <div class="product-image-container">
+                    <img src="https://static.pullandbear.net/assets/public/3164/0e41/f3814e428ed1/8db8f0e8a803/3_DESKTOP/3_DESKTOP.jpg?ts=1767022889641&w=1292.5&f=auto" loading="lazy" />
+                </div>
+                <div class="product-details">
+                    <div class="product-name">Structured Blazer</div>
+                    <div class="product-price">$89.90</div>
+                </div>
+            </div>
+
+            <!-- Mock Product 4 -->
+            <div class="product-card-minimal">
+                <div class="product-image-container">
+                    <img src="https://static.zara.net/assets/public/01b2/e365/1bc447fc8402/faf91d5a1bee/08215572401-p/08215572401-p.jpg?ts=1753369619555&w=449" loading="lazy" />
+                </div>
+                <div class="product-details">
+                    <div class="product-name">Leather Loafers</div>
+                    <div class="product-price">$120.00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

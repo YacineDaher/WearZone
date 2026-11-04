@@ -1,0 +1,184 @@
+@page
+@model WearZone.Pages.Produits.IndexModel
+@{
+    ViewData["Title"] = "Shop All";
+}
+
+<div class="container" style="padding-top: 40px; padding-bottom: 80px;">
+    
+    <!-- Mobile Filter Toggle (Visible only on mobile) -->
+    <div class="mobile-filter-bar">
+        <button class="btn-filter-toggle" onclick="toggleFilters()">Filter & Sort</button>
+        <span class="result-count">@Model.Products.Count items</span>
+    </div>
+
+    <div class="shop-layout">
+        <!-- Sidebar Filters -->
+        <aside class="shop-sidebar" id="shopSidebar">
+            <h3 class="sidebar-title">Filters</h3>
+            
+            <form method="get" class="filter-form">
+                <!-- Preserve existing query params if needed, or rely on inputs -->
+                
+                <input type="hidden" name="SearchString" value="@Model.SearchString" />
+                
+                <!-- GENDER -->
+                <div class="filter-group">
+                    <h4>Gender</h4>
+                    <div class="filter-option">
+                        <input type="radio" id="g_all" name="Gender" value="" @(string.IsNullOrEmpty(Model.Gender) ? "checked" : "") onchange="this.form.submit()">
+                        <label for="g_all">All</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" id="g_men" name="Gender" value="Men" @(Model.Gender == "Men" ? "checked" : "") onchange="this.form.submit()">
+                        <label for="g_men">Men</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" id="g_women" name="Gender" value="Women" @(Model.Gender == "Women" ? "checked" : "") onchange="this.form.submit()">
+                        <label for="g_women">Women</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" id="g_kids" name="Gender" value="Kids" @(Model.Gender == "Kids" ? "checked" : "") onchange="this.form.submit()">
+                        <label for="g_kids">Kids</label>
+                    </div>
+                </div>
+
+                <!-- CATEGORY -->
+                <div class="filter-group">
+                    <h4>Category</h4>
+                    <!-- Simple links could work better here, but radio allows preserving state in form -->
+                     <div class="filter-option">
+                        <input type="radio" id="c_all" name="Category" value="" @(string.IsNullOrEmpty(Model.Category) ? "checked" : "") onchange="this.form.submit()">
+                        <label for="c_all">All Categories</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" id="c_clothing" name="Category" value="Clothing" @(Model.Category == "Clothing" ? "checked" : "") onchange="this.form.submit()">
+                        <label for="c_clothing">Clothing</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" id="c_shoes" name="Category" value="Shoes" @(Model.Category == "Shoes" ? "checked" : "") onchange="this.form.submit()">
+                        <label for="c_shoes">Shoes</label>
+                    </div>
+                     <div class="filter-option">
+                        <input type="radio" id="c_acc" name="Category" value="Accessories" @(Model.Category == "Accessories" ? "checked" : "") onchange="this.form.submit()">
+                        <label for="c_acc">Accessories</label>
+                    </div>
+                </div>
+
+                <!-- FLAGS -->
+                <div class="filter-group">
+                    <h4>Status</h4>
+                    <div class="filter-option">
+                        <input type="checkbox" id="f_new" name="New" value="true" @(Model.New == true ? "checked" : "") onchange="this.form.submit()">
+                        <label for="f_new">New Arrivals</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="f_trend" name="Trending" value="true" @(Model.Trending == true ? "checked" : "") onchange="this.form.submit()">
+                        <label for="f_trend">Trending</label>
+                    </div>
+                </div>
+
+            </form>
+        </aside>
+
+        <!-- Product Grid -->
+        <main class="shop-main">
+            <div class="shop-toolbar">
+                <h1 class="shop-title">
+                    @if (!string.IsNullOrEmpty(Model.SearchString))
+                    {
+                        <span>Search Results for "@Model.SearchString"</span>
+                    }
+                    else
+                    {
+                        @(string.IsNullOrEmpty(Model.Category) ? "All Products" : Model.Category)
+                        @(string.IsNullOrEmpty(Model.Gender) ? "" : " - " + Model.Gender)
+                    }
+                </h1>
+                
+                <!-- Simple Sort -->
+                <div class="sort-wrapper">
+                    <form method="get" style="display:inline;">
+                        <!-- Hidden inputs to keep current filters when sorting -->
+                        <input type="hidden" name="SearchString" value="@Model.SearchString" />
+                        <input type="hidden" name="Gender" value="@Model.Gender" />
+                        <input type="hidden" name="Category" value="@Model.Category" />
+                        <input type="hidden" name="New" value="@(Model.New == true ? "true" : "false")" />
+                        
+                        <select name="Sort" onchange="this.form.submit()" class="sort-select">
+                            <option value="newest" selected="@(Model.Sort == "newest")">Newest</option>
+                            <option value="price_asc" selected="@(Model.Sort == "price_asc")">Price: Low to High</option>
+                            <option value="price_desc" selected="@(Model.Sort == "price_desc")">Price: High to Low</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+
+            @if(Model.Products.Count == 0)
+            {
+                <div class="no-products">
+                    <p>No products found matching your selection.</p>
+                    <a href="/Produits" class="btn-reset">Reset Filters</a>
+                </div>
+            }
+            else
+            {
+                <div class="product-grid">
+                    @foreach (var item in Model.Products)
+                    {
+                        <a asp-page="/Produits/Details" asp-route-id="@item.Id" class="product-card-minimal">
+                            <div class="product-image-container">
+                                @if(item.IsNewArrival) { <span class="badge-minimal">NEW</span> }
+                                else if(item.IsTrending) { <span class="badge-minimal" style="background:#000;">HOT</span> }
+                                
+                                <img src="@item.ImageUrl" class="default-img" alt="@item.Name" loading="lazy" />
+                                @if(!string.IsNullOrEmpty(item.SecondaryImageUrl))
+                                {
+                                    <img src="@item.SecondaryImageUrl" class="hover-img" alt="@item.Name" loading="lazy" />
+                                }
+                                <button class="btn-wishlist" onclick="event.preventDefault(); toggleWishlist(@item.Id, this)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="product-details">
+                                <div class="product-name">@item.Name</div>
+                                <div class="product-price">$@item.Price</div>
+                            </div>
+                        </a>
+                    }
+                </div>
+
+                <!-- Pagination -->
+                @if (Model.TotalPages > 1)
+                {
+                    <div class="pagination-container">
+                        @if(Model.CurrentPage > 1)
+                        {
+                            <a href="?CurrentPage=@(Model.CurrentPage - 1)&Gender=@Model.Gender&Category=@Model.Category&Sort=@Model.Sort" class="page-link prev">Previous</a>
+                        }
+                        
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <a href="?CurrentPage=@i&Gender=@Model.Gender&Category=@Model.Category&Sort=@Model.Sort" 
+                               class="page-link @(i == Model.CurrentPage ? "active" : "")">@i</a>
+                        }
+
+                        @if(Model.CurrentPage < Model.TotalPages)
+                        {
+                            <a href="?CurrentPage=@(Model.CurrentPage + 1)&Gender=@Model.Gender&Category=@Model.Category&Sort=@Model.Sort" class="page-link next">Next</a>
+                        }
+                    </div>
+                }
+            }
+        </main>
+    </div>
+</div>
+
+<script>
+    function toggleFilters() {
+        var sidebar = document.getElementById('shopSidebar');
+        sidebar.classList.toggle('active');
+    }
+</script>

@@ -1,0 +1,91 @@
+@page
+@model WearZone.Pages.ContactModel
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<div class="container" style="padding-top: 40px; padding-bottom: 80px; max-width: 800px;">
+    
+    <div class="text-center mb-5">
+        <h1 class="display-4">Contact Us</h1>
+        <p class="lead text-muted">Have questions? We'd love to hear from you.</p>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row">
+        <!-- Contact Info -->
+        <div class="col-md-5 mb-4">
+            <div class="p-4 bg-light rounded h-100">
+                <h4 class="mb-4">Get in Touch</h4>
+                
+                <div class="mb-3">
+                    <h6 class="fw-bold">Address</h6>
+                    <p class="text-muted">123 Fashion Street, Design District, New York, NY 10001</p>
+                </div>
+
+                <div class="mb-3">
+                    <h6 class="fw-bold">Email</h6>
+                    <p class="text-muted">support@wearzone.com</p>
+                </div>
+
+                <div class="mb-3">
+                    <h6 class="fw-bold">Phone</h6>
+                    <p class="text-muted">+1 (555) 123-4567</p>
+                </div>
+
+                <div class="mt-4">
+                    <h6 class="fw-bold">Follow Us</h6>
+                    <div class="d-flex gap-3 text-muted">
+                        <i class="fab fa-instagram fa-lg"></i>
+                        <i class="fab fa-facebook fa-lg"></i>
+                        <i class="fab fa-twitter fa-lg"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-md-7">
+            <form method="post" class="needs-validation">
+                <div class="mb-3">
+                    <label asp-for="Input.Name" class="form-label">Full Name</label>
+                    <input asp-for="Input.Name" class="form-control" placeholder="Your name" />
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Input.Email" class="form-label">Email Address</label>
+                    <input asp-for="Input.Email" class="form-control" placeholder="name@example.com" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Input.Subject" class="form-label">Subject</label>
+                    <input asp-for="Input.Subject" class="form-control" placeholder="How can we help?" />
+                    <span asp-validation-for="Input.Subject" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Input.Message" class="form-label">Message</label>
+                    <textarea asp-for="Input.Message" class="form-control" rows="5" placeholder="Write your message here..."></textarea>
+                    <span asp-validation-for="Input.Message" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-dark btn-lg">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

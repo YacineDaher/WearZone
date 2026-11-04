@@ -1,0 +1,158 @@
+@page
+@model WearZone.Pages.Wishlist.IndexModel
+@{
+    ViewData["Title"] = "My Wishlist";
+}
+
+<div class="wishlist-page-container">
+    <div class="wishlist-header">
+        <h1>My Wishlist</h1>
+        <p class="wishlist-count">@Model.WishlistItems.Count @(Model.WishlistItems.Count == 1 ? "Item" : "Items")</p>
+    </div>
+
+    @if (Model.WishlistItems.Count == 0)
+    {
+        <div class="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin-bottom: 20px; opacity: 0.3;">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <h3>Your wishlist is empty</h3>
+            <p>Save items you love to revisit them later.</p>
+            <a href="/Produits/Index" class="btn-shop-now">Start Shopping</a>
+        </div>
+    }
+    else
+    {
+        <div class="product-grid">
+            @foreach (var item in Model.WishlistItems)
+            {
+                <a href="/Produits/Details?id=@item.Product.Id" class="product-card-minimal">
+                    <div class="product-image-container">
+                        <img src="@item.Product.ImageUrl" alt="@item.Product.Name" class="default-img" loading="lazy">
+                        @if (!string.IsNullOrEmpty(item.Product.SecondaryImageUrl))
+                        {
+                            <img src="@item.Product.SecondaryImageUrl" alt="@item.Product.Name" class="hover-img" loading="lazy">
+                        }
+                        <button class="btn-wishlist active" onclick="event.preventDefault(); toggleWishlist(@item.Product.Id, this)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        @if (!string.IsNullOrEmpty(item.Product.Brand))
+                        {
+                            <div class="product-brand">@item.Product.Brand</div>
+                        }
+                        <div class="product-name">@item.Product.Name</div>
+                        <div class="product-price">$@item.Product.Price</div>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .wishlist-page-container {
+        max-width: 1400px;
+        margin: 60px auto 100px;
+        padding: 0 20px;
+    }
+    
+    .wishlist-header {
+        text-align: center;
+        margin-bottom: 60px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .wishlist-header h1 {
+        font-family: var(--font-heading);
+        font-size: 32px;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 400;
+    }
+    
+    .wishlist-count {
+        font-size: 14px;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 100px 20px;
+    }
+    
+    .empty-state h3 {
+        font-size: 24px;
+        margin-bottom: 15px;
+        font-weight: 400;
+    }
+    
+    .empty-state p {
+        font-size: 15px;
+        color: #666;
+        margin-bottom: 30px;
+    }
+    
+    .btn-shop-now {
+        display: inline-block;
+        background: #000;
+        color: #fff;
+        padding: 14px 40px;
+        text-transform: uppercase;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-shop-now:hover {
+        background: #333;
+        transform: translateY(-2px);
+        color: #fff;
+    }
+    
+    .product-brand {
+        font-size: 11px;
+        text-transform: uppercase;
+        color: #999;
+        margin-bottom: 5px;
+        letter-spacing: 1px;
+    }
+    
+    /* Override product grid for wishlist - smaller, more compact images */
+    .wishlist-page-container .product-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        row-gap: 40px;
+    }
+    
+    .wishlist-page-container .product-image-container {
+        padding-top: 133% !important; /* 3:4 aspect ratio - much smaller than 150% */
+        margin-bottom: 12px;
+    }
+    
+    .wishlist-page-container .btn-wishlist {
+        opacity: 1; /* Always visible on wishlist page */
+    }
+    
+    @@media (max-width: 1024px) {
+        .wishlist-page-container .product-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    
+    @@media (max-width: 768px) {
+        .wishlist-page-container .product-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+    }
+</style>

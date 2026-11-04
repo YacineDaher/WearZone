@@ -1,0 +1,220 @@
+@model DashboardStats
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<!-- Stats Grid -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <div>
+                <div class="stat-card-title">Total Products</div>
+            </div>
+            <div class="stat-card-icon primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                </svg>
+            </div>
+        </div>
+        <div class="stat-card-value">@Model.TotalProducts</div>
+        <div class="stat-card-subtitle">@Model.ActiveProducts active</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <div>
+                <div class="stat-card-title">Total Orders</div>
+            </div>
+            <div class="stat-card-icon success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                </svg>
+            </div>
+        </div>
+        <div class="stat-card-value">@Model.TotalOrders</div>
+        <div class="stat-card-subtitle">@Model.PendingOrders pending</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <div>
+                <div class="stat-card-title">Total Revenue</div>
+            </div>
+            <div class="stat-card-icon success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+            </div>
+        </div>
+        <div class="stat-card-value">$@Model.TotalRevenue.ToString("N2")</div>
+        <div class="stat-card-subtitle">All time</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <div>
+                <div class="stat-card-title">Total Customers</div>
+            </div>
+            <div class="stat-card-icon info">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                </svg>
+            </div>
+        </div>
+        <div class="stat-card-value">@Model.TotalCustomers</div>
+        <div class="stat-card-subtitle">Registered users</div>
+    </div>
+</div>
+
+<!-- Inventory Alerts -->
+@if (Model.LowStockProducts > 0 || Model.OutOfStockProducts > 0)
+{
+    <div class="stats-grid" style="margin-bottom: 40px;">
+        @if (Model.OutOfStockProducts > 0)
+        {
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div>
+                        <div class="stat-card-title">Out of Stock</div>
+                    </div>
+                    <div class="stat-card-icon danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stat-card-value">@Model.OutOfStockProducts</div>
+                <div class="stat-card-subtitle">Products need restocking</div>
+            </div>
+        }
+
+        @if (Model.LowStockProducts > 0)
+        {
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div>
+                        <div class="stat-card-title">Low Stock</div>
+                    </div>
+                    <div class="stat-card-icon warning">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                            <line x1="12" y1="9" x2="12" y2="13"></line>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stat-card-value">@Model.LowStockProducts</div>
+                <div class="stat-card-subtitle">Products running low</div>
+            </div>
+        }
+    </div>
+}
+
+<!-- Recent Orders -->
+<div class="admin-table-container" style="margin-bottom: 40px;">
+    <div class="admin-table-header">
+        <h3 class="admin-table-title">Recent Orders</h3>
+        <a href="/Admin/Orders" class="btn-admin btn-admin-secondary btn-admin-sm">View All</a>
+    </div>
+    
+    @if (Model.RecentOrders.Any())
+    {
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Order #</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.RecentOrders)
+                {
+                    <tr>
+                        <td><strong>#@order.Id</strong></td>
+                        <td>@order.FullName</td>
+                        <td>@order.OrderDate.ToString("MMM dd, yyyy")</td>
+                        <td>@order.Items.Count item(s)</td>
+                        <td><strong>$@order.TotalAmount.ToString("N2")</strong></td>
+                        <td>
+                            @if (order.Status == "Pending")
+                            {
+                                <span class="badge badge-warning">@order.Status</span>
+                            }
+                            else if (order.Status == "Shipped")
+                            {
+                                <span class="badge badge-info">@order.Status</span>
+                            }
+                            else if (order.Status == "Delivered")
+                            {
+                                <span class="badge badge-success">@order.Status</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary">@order.Status</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div style="padding: 40px; text-align: center; color: #999;">
+            <p>No orders yet</p>
+        </div>
+    }
+</div>
+
+<!-- Top Products -->
+<div class="admin-table-container">
+    <div class="admin-table-header">
+        <h3 class="admin-table-title">Top Selling Products</h3>
+    </div>
+    
+    @if (Model.TopProducts.Any())
+    {
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Total Sold</th>
+                    <th>Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.TopProducts)
+                {
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <img src="@item.Product.ImageUrl" alt="@item.Product.Name" class="product-img-sm" />
+                                <div>
+                                    <div><strong>@item.Product.Name</strong></div>
+                                    <div style="font-size: 12px; color: #999;">@item.Product.Brand</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><strong>@item.TotalSold</strong> units</td>
+                        <td><strong>$@item.Revenue.ToString("N2")</strong></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div style="padding: 40px; text-align: center; color: #999;">
+            <p>No sales data yet</p>
+        </div>
+    }
+</div>

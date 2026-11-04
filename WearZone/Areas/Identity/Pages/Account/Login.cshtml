@@ -1,0 +1,49 @@
+@page
+@model WearZone.Areas.Identity.Pages.Account.LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="auth-container">
+    <div class="auth-card">
+        <h1 class="auth-title">Welcome Back</h1>
+        <p class="auth-subtitle">Sign in to access your account</p>
+
+        <form id="account" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            
+            <div class="form-group full">
+                <label asp-for="Input.Email">Email Address</label>
+                <input asp-for="Input.Email" class="form-input" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group full" style="margin-top:20px;">
+                <label asp-for="Input.Password">Password</label>
+                <input asp-for="Input.Password" class="form-input" autocomplete="current-password" aria-required="true" placeholder="password" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="auth-options">
+                <label asp-for="Input.RememberMe" class="remember-me">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+                <a id="forgot-password" asp-page="./ForgotPassword" class="forgot-link">Forgot password?</a>
+            </div>
+
+            <button id="login-submit" type="submit" class="btn-auth-submit">Log In</button>
+            
+            <div class="auth-divider">
+                <span>New to WearZone?</span>
+            </div>
+            
+            <a href="/Identity/Account/Register" class="btn-auth-outline">Create Account</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

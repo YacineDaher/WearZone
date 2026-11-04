@@ -1,0 +1,148 @@
+@page
+@model WearZone.Pages.Panier.IndexModel
+@{
+    ViewData["Title"] = "Shopping Bag";
+}
+
+<div class="cart-page-container">
+    
+    <div class="cart-page-header">
+        <h1>Shopping Bag</h1>
+        @if (Model.Cart?.Elements != null && Model.Cart.Elements.Any())
+        {
+            <span class="cart-count-label">@Model.Cart.Elements.Sum(e => e.Quantite) Items</span>
+        }
+    </div>
+
+    @if (Model.Cart?.Elements == null || !Model.Cart.Elements.Any())
+    {
+        <div class="empty-cart-state">
+            <div class="empty-icon-wrapper">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+            </div>
+            <h2>Your bag is empty</h2>
+            <p>Looks like you haven't added any items to the bag yet.</p>
+            <a href="/" class="btn-continue-shopping">Start Shopping</a>
+        </div>
+    }
+    else
+    {
+        <div class="cart-layout">
+            <!-- Left: Cart Items -->
+            <div class="cart-items-column">
+                <div class="cart-table-header">
+                    <span>Product</span>
+                    <span>Quantity</span>
+                    <span class="text-right">Price</span>
+                </div>
+
+                @foreach (var item in Model.Cart.Elements)
+                {
+                    <div class="cart-row-item" id="row-@item.ProductId">
+                        <div class="cart-product-info">
+                            <a href="/Produits/Details?id=@item.ProductId" class="cart-img-wrapper">
+                                <img src="@item.Product.ImageUrl" alt="@item.Product.Name" />
+                            </a>
+                            <div class="cart-product-details">
+                                <div class="cart-product-brand">@item.Product.Brand</div>
+                                <a href="/Produits/Details?id=@item.ProductId" class="cart-product-name">@item.Product.Name</a>
+                                <div class="cart-product-options">
+                                    <span>Color: Black</span> <!-- Hardcoded for now unless model supports it -->
+                                    <span>Size: M</span>    <!-- Hardcoded for now -->
+                                </div>
+                                <button class="btn-remove-link" onclick="removeFromCartPage(@item.ProductId)">Remove</button>
+                            </div>
+                        </div>
+
+                        <div class="cart-qty-col">
+                            <div class="qty-selector-large">
+                                <button onclick="updateCartPageQty(@item.ProductId, 'decrease')">-</button>
+                                <span id="qty-@item.ProductId">@item.Quantite</span>
+                                <button onclick="updateCartPageQty(@item.ProductId, 'increase')">+</button>
+                            </div>
+                        </div>
+
+                        <div class="cart-price-col">
+                            $@(item.Product.Price * item.Quantite)
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Right: Summary -->
+            <div class="cart-summary-column">
+                <div class="summary-card">
+                    <h3>Order Summary</h3>
+                    
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="page-subtotal">$@Model.Cart.Elements.Sum(e => e.Product.Price * e.Quantite)</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span>Free</span>
+                    </div>
+                    
+                    <div class="summary-divider"></div>
+                    
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="page-total">$@Model.Cart.Elements.Sum(e => e.Product.Price * e.Quantite)</span>
+                    </div>
+
+                    <div class="promo-code-section">
+                        <label>Promo Code</label>
+                        <div class="promo-input-group">
+                            <input type="text" placeholder="Enter code" />
+                            <button>Apply</button>
+                        </div>
+                    </div>
+
+                    <a href="/Checkout" class="btn-checkout-full">Proceed to Checkout</a>
+                    
+                    <div class="secure-checkout-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        Secure Checkout
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function updateCartPageQty(productId, action) {
+             const url = action === 'increase' ? '/api/cart/add' : '/api/cart/decrease';
+             
+             fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(productId)
+            })
+            .then(res => res.json())
+            .then(data => {
+                // If we are on the full cart page, it's better to reload to re-render server side or update DOM complexly.
+                // For a seamless "SPA-like" feel, we could update DOM, but reloading is safer to sync everything perfectly for now.
+                // Alternatively, we can use the data returned (which is the cart state) to update specific elements.
+                location.reload(); 
+            });
+        }
+
+        function removeFromCartPage(productId) {
+            fetch('/api/cart/remove', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(productId)
+            })
+            .then(res => res.json())
+            .then(data => {
+                location.reload();
+            });
+        }
+    </script>
+}

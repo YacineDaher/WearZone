@@ -1,0 +1,149 @@
+@page
+@model WearZone.Pages.Checkout.IndexModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="checkout-container">
+    <div class="checkout-layout">
+        
+        <!-- LEFT: FORMS -->
+        <div class="checkout-forms">
+            <div class="checkout-header">
+                <h2>Checkout</h2>
+                <p>Already have an account? <a href="/Identity/Account/Login">Log in</a> for a faster checkout.</p>
+            </div>
+
+            <form method="post" id="checkoutForm">
+                
+                <!-- 1. Shipping Section -->
+                <div class="form-section">
+                    <h3 class="section-title">1. Shipping Address</h3>
+                    <div class="form-grid">
+                        <div class="form-group half">
+                            <label>First Name</label>
+                            <input type="text" required class="form-input" />
+                        </div>
+                        <div class="form-group half">
+                            <label>Last Name</label>
+                            <input type="text" required class="form-input" />
+                        </div>
+                        <div class="form-group full">
+                            <label>Address</label>
+                            <input type="text" required class="form-input" placeholder="Street address, apartment, etc." />
+                        </div>
+                        <div class="form-group third">
+                            <label>City</label>
+                            <input type="text" required class="form-input" />
+                        </div>
+                        <div class="form-group third">
+                            <label>State / Province</label>
+                            <input type="text" class="form-input" />
+                        </div>
+                        <div class="form-group third">
+                            <label>Zip Code</label>
+                            <input type="text" required class="form-input" />
+                        </div>
+                        <div class="form-group full">
+                            <label>Phone Number</label>
+                            <input type="tel" required class="form-input" placeholder="For delivery updates" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Delivery Method (Visual only) -->
+                 <div class="form-section">
+                    <h3 class="section-title">2. Delivery Method</h3>
+                    <div class="delivery-options">
+                        <label class="delivery-option active">
+                            <input type="radio" name="delivery" checked />
+                            <span class="d-info">
+                                <span class="d-title">Standard Delivery</span>
+                                <span class="d-desc">3-5 Business Days</span>
+                            </span>
+                            <span class="d-price">Free</span>
+                        </label>
+                        <label class="delivery-option">
+                            <input type="radio" name="delivery" />
+                            <span class="d-info">
+                                <span class="d-title">Express Delivery</span>
+                                <span class="d-desc">1-2 Business Days</span>
+                            </span>
+                            <span class="d-price">$15.00</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 3. Payment -->
+                <div class="form-section">
+                    <h3 class="section-title">3. Payment</h3>
+                    <div class="payment-tabs">
+                        <button type="button" class="tab active">Credit Card</button>
+                        <button type="button" class="tab">PayPal</button>
+                    </div>
+                    
+                    <div class="credit-card-form">
+                        <div class="form-group full">
+                            <label>Card Number</label>
+                            <input type="text" placeholder="0000 0000 0000 0000" class="form-input" />
+                        </div>
+                        <div class="form-group half">
+                            <label>Expiration (MM/YY)</label>
+                            <input type="text" placeholder="MM/YY" class="form-input" />
+                        </div>
+                        <div class="form-group half">
+                            <label>CVV</label>
+                            <input type="text" placeholder="123" class="form-input" />
+                        </div>
+                        <div class="form-group full">
+                            <label>Name on Card</label>
+                            <input type="text" class="form-input" />
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-place-order">PLACE ORDER</button>
+
+            </form>
+        </div>
+
+        <!-- RIGHT: SUMMARY -->
+        <div class="checkout-summary">
+            <div class="summary-box sticky">
+                <h3>Order Summary</h3>
+                <div class="summary-items-list">
+                    @foreach (var item in Model.Cart.Elements)
+                    {
+                        <div class="sum-item">
+                            <div class="sum-img">
+                                <img src="@item.Product.ImageUrl" />
+                                <span class="sum-qty">@item.Quantite</span>
+                            </div>
+                            <div class="sum-info">
+                                <div class="sum-name">@item.Product.Name</div>
+                                <div class="sum-price">$@(item.Product.Price * item.Quantite)</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                
+                 <div class="summary-divider"></div>
+
+                 <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>$@Model.Cart.Elements.Sum(e => e.Product.Price * e.Quantite)</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span>Free</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span>$@Model.Cart.Elements.Sum(e => e.Product.Price * e.Quantite)</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
